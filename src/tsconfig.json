@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es3",
+        "module": "commonjs",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "jsx": "react",
+        "suppressImplicitAnyIndexErrors": true
+    }
+}
