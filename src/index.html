@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello React!</title>
+    </head>
+    <body>
+        <div id="example"></div>
 
-<head>
-    <title>Author Quiz</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+        <!-- Dependencies -->
+        <script src="./node_modules/react/umd/react.development.js"></script>
+        <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
 
-<body>
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Author Quiz!</h1>
-            <p>Select the book written by the author below...</p>
-        </div>
-    </div>
-    <div class="container">
-        <div id="app" />
-    </div>
-    <div id="footer">
-        <div class="container">
-            <p class="credit text-muted">
-                All images from <a href="https://www.wikimedia.org">wikimedia.org</a>
-            </p>
-        </div>
-    </div>
-</body>
-
+        <!-- Main -->
+        <script src="./dist/main.js"></script>
+    </body>
 </html>

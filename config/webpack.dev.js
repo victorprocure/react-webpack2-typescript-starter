@@ -1,28 +1,27 @@
 var webpackMerge = require('webpack-merge');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
-var express = require('express');
+var root = helpers.root;
 
 module.exports = webpackMerge(commonConfig, {
     devtool: 'cheap-module-eval-source-map',
 
     output: {
-        path: helpers.root('dist'),
+        path: root('dist'),
         publicPath: 'http://localhost:3000/',
         filename: '[name].js',
         chunkFilename: '[id].chunk.js'
     }, 
 
     plugins: [
-        new ExtractTextPlugin('[name].css')
+        new MiniCssExtractPlugin('[name].css')
     ],
 
     devServer: {
         historyApiFallback: true,
         stats: 'minimal',
-        setup: function(app) {
-            app.use('/assets', express.static(helpers.root('src','assets')));
+        before: function(app) {
             app.get('/test', function(req, res) {
                 res.json({custom: 'response'})
             });

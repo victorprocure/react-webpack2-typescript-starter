@@ -1,12 +1,24 @@
-var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var helpers = require('./helpers');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var helpers =  require('./helpers');
+var root = helpers.root;
 
 module.exports = {
     entry: {
-        vendor: ['./src/vendor', 'bootstrap/dist/css/bootstrap.min.css'],
-        app: ['./src/main', './src/styles/app.css']
+        vendor: ['./src/vendor'],
+        app: ['./src/index']
+    },
+    optimization: {
+      splitChunks: {
+          cacheGroups:{
+              vendor: {
+                  chunks: 'initial',
+                  test: 'vendor',
+                  name: 'vendor',
+                  enforce: true
+              }
+          }
+      }  
     },
 
     resolve: {
@@ -20,7 +32,7 @@ module.exports = {
                 use: {
                     loader: 'awesome-typescript-loader',
                     options: {
-                        configFileName: helpers.root('src', 'tsconfig.json')
+                        configFileName: root('tsconfig.json')
                     }
                 }
             },
@@ -38,24 +50,25 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: '../',
+                        hmr: process.env.NODE_ENV === 'development'
+                    }
+                }, 'css-loader']
             }
         ]
     },
 
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['app', 'vendor']
-        }),
-
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
-
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery'
-        })
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+            ignoreOrder: false,
+          })
     ]
 }
